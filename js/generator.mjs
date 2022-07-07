@@ -3,17 +3,18 @@ import createDiagram from "./create-diagram.mjs";
 const textarea = document.querySelector("textarea");
 const preview = document.querySelector("#preview");
 const code = document.querySelector("#code");
+const permalink = document.querySelector("#permalink");
+
+if (location.hash) {
+  textarea.value = atob(location.hash.substring(1));
+}
 
 textarea.oninput = () => {
-  let input = textarea.value;
-  if (input.endsWith("\n")) {
-    // Makes it a bit prettier in the HTML comment we output.
-    input = input.substring(0, input.length - 1);
-  }
+  const input = getInput();
 
   try {
     const table = createDiagram(input);
-    const comment = `<!--\nhttps://domenic.github.io/jake-diagram-generator\n\n${input}\n-->`;
+    const comment = `<!--\n${getPermalink(input)}\n\n${input}\n-->`;
 
     preview.replaceChildren(table);
     code.replaceChildren(table.outerHTML + "\n\n" + comment);
@@ -23,3 +24,22 @@ textarea.oninput = () => {
   }
 };
 textarea.oninput();
+
+permalink.onclick = () => {
+  location.href = getPermalink(getInput());
+};
+
+function getPermalink(input) {
+  const url = new URL(location.href);
+  url.hash = btoa(input);
+  return url.href;
+}
+
+function getInput() {
+  let input = textarea.value;
+  if (input.endsWith("\n")) {
+    // Makes it a bit prettier in the HTML comment we output.
+    input = input.substring(0, input.length - 1);
+  }
+  return input;
+}
