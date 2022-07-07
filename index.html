@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://resources.whatwg.org/spec.css">
+<link rel="stylesheet" href="https://resources.whatwg.org/standard.css">
+<link rel="stylesheet" href="https://resources.whatwg.org/standard-shared-with-dev.css">
+
+<link rel="stylesheet" href="css/jake-diagrams.css">
+<link rel="stylesheet" href="css/generator.css">
+<script type="module" src="js/generator.mjs"></script>
+
+<h1>Jake Diagram Generator</h1>
+
+<h2>Input</h2>
+
+<textarea>
+top
+  0-2: /t-1 | doc1
+  3: /t-1#foo | doc1
+  4: /t-2
+frames[0]
+  0: /i-0-a
+  1-3: /i-0-b
+frames[1]
+  0-1: /i-1-a
+  2-3: /i-1-b
+</textarea>
+
+<h2>Preview</h2>
+
+<output id="preview"></output>
+
+<h2>Code</h2>
+
+<output id="code"></output>
+
+<h2>What's all this?</h2>
+
+<p>A "Jake diagram", named after their inventor, the imitable <a href="https://twitter.com/jaffathecake/">Jake Archibald</a>, depicts the joint session history of a web browser.
+
+<p>Each numbered column represents a step in the session history. Each row represents a navigable, as it transitions between different URLs and documents. The URLs are given by the text content of the cells, and the documents are given by the background color of the cells. A given navigable might not exist at a given step, in which case the corresponding cells are empty.
+
+<p>This tool allows you to generate and edit Jake diagrams, using a hacked-together domain-specific language. It's intended to be used mainly by contributors to the <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>, especially those working on the <a href="https://github.com/whatwg/html/pull/6315">navigation and session history rewrite</a>.
