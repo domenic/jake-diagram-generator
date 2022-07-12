@@ -10,14 +10,14 @@ if (location.hash) {
 }
 
 textarea.oninput = () => {
-  const input = getInput();
+  const input = textarea.value;
 
   try {
     const table = createDiagram(input);
-    const comment = `<!--\n${getPermalink(input)}\n\n${input}\n-->`;
+    const comment = `<!--${getPermalink(input)} -->`;
 
     preview.replaceChildren(table);
-    code.replaceChildren(table.outerHTML + "\n\n" + comment);
+    code.replaceChildren(comment + "\n" + table.outerHTML);
   } catch (e) {
     preview.innerHTML = `<p class="error">${e.message}</p><p class="stack">${e.stack}</p>`;
     code.replaceChildren();
@@ -26,20 +26,11 @@ textarea.oninput = () => {
 textarea.oninput();
 
 permalink.onclick = () => {
-  location.href = getPermalink(getInput());
+  location.href = getPermalink(textarea.value);
 };
 
 function getPermalink(input) {
   const url = new URL(location.href);
   url.hash = btoa(input);
   return url.href;
-}
-
-function getInput() {
-  let input = textarea.value;
-  if (input.endsWith("\n")) {
-    // Makes it a bit prettier in the HTML comment we output.
-    input = input.substring(0, input.length - 1);
-  }
-  return input;
 }
