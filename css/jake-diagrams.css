@@ -3,8 +3,9 @@
   table-layout: fixed;
 }
 
-.jake-diagram th.step {
+.jake-diagram :where(th.step) {
   width: 75px;
+  font-weight: normal;
 }
 
 .jake-diagram th:not(.step) {
@@ -17,6 +18,11 @@
 
 .jake-diagram td.prev-is-same-doc {
   border-left: dotted 2px;
+}
+
+.jake-diagram .current {
+  font-style: italic;
+  font-weight: bold;
 }
 
 /* Chosen by clicking around https://colorhunt.co/palettes/pastel */

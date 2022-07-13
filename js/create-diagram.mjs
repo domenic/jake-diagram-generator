@@ -15,7 +15,15 @@ export default input => {
   let docSignifiersToDocIndices = new Map();
 
   let i = 0;
+  let currentStep = null;
   while (i < lines.length) {
+    const currentLine = /^!current\s*=\s*(\d+)$/.exec(lines[i]);
+    if (currentLine) {
+      currentStep = Number(currentLine[1]);
+      ++i;
+      continue;
+    }
+
     const frameName = lines[i];
     const tr = tBody.appendChild(document.createElement("tr"));
     const th = tr.appendChild(document.createElement("th"));
@@ -50,6 +58,10 @@ export default input => {
       td.docIndex = docIndex;
       td.textContent = url;
 
+      if (startingStep <= currentStep && currentStep <= endingStep) {
+        td.classList.add("current");
+      }
+
       ++i;
     }
 
@@ -68,6 +80,10 @@ export default input => {
     const th = headRow.appendChild(document.createElement("th"));
     th.className = "step";
     th.textContent = i;
+
+    if (i === currentStep) {
+      th.classList.add("current");
+    }
   }
 
   return table;
