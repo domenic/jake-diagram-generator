@@ -1,10 +1,16 @@
 .jake-diagram {
   border-style: hidden none hidden hidden;
   table-layout: fixed;
+  background: white;
+  color: black;
+}
+
+.jake-diagram, .jake-diagram :is(td, th, tr) {
+  border-color: black;
 }
 
 .jake-diagram :where(th.step) {
-  width: 75px;
+  width: 95px;
   font-weight: normal;
 }
 
