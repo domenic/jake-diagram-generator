@@ -1,3 +1,6 @@
+// What documents we have CSS classes for. Expand this if you edit jake-diagrams.css.
+const docs = [0, 1, 2, 3, 4, 5];
+
 export default input => {
   const lines = splitInputIntoLines(input);
 
@@ -11,15 +14,24 @@ export default input => {
   const tBody = table.appendChild(document.createElement("tbody"));
 
   let maxStep = 0;
-  let currentDoc = 0;
+  let nextDocIndexToUse = 0;
   let docSignifiersToDocIndices = new Map();
 
   let i = 0;
   let currentStep = null;
+  let docsToUse = docs;
   while (i < lines.length) {
     const currentLine = /^!current\s*=\s*(\d+)$/.exec(lines[i]);
     if (currentLine) {
       currentStep = Number(currentLine[1]);
+      ++i;
+      continue;
+    }
+
+    const skipDocsLine = /^!skipDocColors\s*=\s*([\d, ]+)$/.exec(lines[i]);
+    if (skipDocsLine) {
+      const skipDocs = skipDocsLine[1].split(",").map(s => Number(s.trim()));
+      docsToUse = docsToUse.filter(doc => !skipDocs.includes(doc));
       ++i;
       continue;
     }
@@ -33,16 +45,21 @@ export default input => {
     while (lines[i]?.startsWith(" ")) {
       const [, steps, url, docSignifier] = /^\s+([\d-]+): (.+?)(?: | (.+))?$/.exec(lines[i]);
 
-      let docIndex = currentDoc;
+      let docIndex = nextDocIndexToUse;
       if (docSignifier) {
         if (docSignifiersToDocIndices.has(docSignifier)) {
           docIndex = docSignifiersToDocIndices.get(docSignifier);
         } else {
           docSignifiersToDocIndices.set(docSignifier, docIndex);
-          ++currentDoc;
+          ++nextDocIndexToUse;
         }
       } else {
-        ++currentDoc;
+        ++nextDocIndexToUse;
+      }
+      if (docIndex >= docs.length) {
+        throw new Error(
+          `This diagram has more than ${docs.length} documents, which is the maximum we have colors for right now.`
+        );
       }
 
       let startingStep = steps;
@@ -54,7 +71,7 @@ export default input => {
 
       const td = tr.appendChild(document.createElement("td"));
       td.colSpan = endingStep - startingStep  + 1;
-      td.className = `doc-${docIndex}`;
+      td.className = `doc-${docsToUse[docIndex]}`;
       td.docIndex = docIndex;
       td.textContent = url;
 
