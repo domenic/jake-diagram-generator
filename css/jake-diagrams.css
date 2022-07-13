@@ -11,6 +11,14 @@
   text-align: right;
 }
 
+.jake-diagram td.next-is-same-doc {
+  border-right: dotted 2px;
+}
+
+.jake-diagram td.prev-is-same-doc {
+  border-left: dotted 2px;
+}
+
 /* Chosen by clicking around https://colorhunt.co/palettes/pastel */
 .jake-diagram .doc-0 {
   background: #F0EBE3;

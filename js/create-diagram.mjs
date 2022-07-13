@@ -47,9 +47,20 @@ export default input => {
       const td = tr.appendChild(document.createElement("td"));
       td.colSpan = endingStep - startingStep  + 1;
       td.className = `doc-${docIndex}`;
+      td.docIndex = docIndex;
       td.textContent = url;
 
       ++i;
+    }
+
+    // Now that we have all the columns for this navigable, go mark up same-document relationships.
+    for (const td of tr.querySelectorAll("td")) {
+      if (td.docIndex === td.previousElementSibling?.docIndex) {
+        td.classList.add("prev-is-same-doc");
+      }
+      if (td.docIndex === td.nextElementSibling?.docIndex) {
+        td.classList.add("next-is-same-doc");
+      }
     }
   }
 
