@@ -46,8 +46,21 @@ frames[1]
 
 <h2>What's all this?</h2>
 
-<p>A "Jake diagram", named after their inventor, the imitable <a href="https://twitter.com/jaffathecake/">Jake Archibald</a>, depicts the joint session history of a web browser.
-
-<p>Each numbered column represents a step in the session history. Each row represents a navigable, as it transitions between different URLs and documents. The URLs are given by the text content of the cells, and the documents are given by the background color of the cells. A given navigable might not exist at a given step, in which case the corresponding cells are empty.
+<p>A "Jake diagram", named after their inventor, the imitable <a href="https://twitter.com/jaffathecake/">Jake Archibald</a>, depicts the joint session history of a web browser. Learn more in the <a href="https://whatpr.org/html/6315/document-sequences.html#jake-diagrams">preview version of the HTML Standard pull request that will be introducing them</a>.
 
 <p>This tool allows you to generate and edit Jake diagrams, using a hacked-together domain-specific language. It's intended to be used mainly by contributors to the <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>, especially those working on the <a href="https://github.com/whatwg/html/pull/6315">navigation and session history rewrite</a>.
+
+<p>The language's primary format is:</p>
+
+<ul>
+  <li><p>Non-indented lines give navigable names
+  <li><p>Indented lines under the navigable are in the form <code>x: url</code> or <code>x-y: url</code>, where <var>x</var> and <var>y</var> are step numbers and <var>url</var> gives the URL to display for that session history entry
+  <li><p>Those indented lines can optionally be followed by <code>| z</code>, where <var>z</var> is any value. If multiple indented lines have the same value in this position, they will be considered to share a document.
+</ul>
+
+<p>The language has the following special lines, both optional:</p>
+
+<ul>
+  <li><p><code>!current = x</code>, where <var>x</var> is a number indicating which step should be marked as the current step.
+  <li><p><code>!skipDocColors = x,y,z</code> where <var>x,y,z</var> indicates a comma-separated list of 0-indexed colors to skip when coloring the session history entries according to their documents. This is useful when you want to have two diagrams look the same despite the setup resulting in some documents being removed.
+</ul>
