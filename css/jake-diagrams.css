@@ -55,3 +55,12 @@
 .jake-diagram .doc-5 {
   background: #DAE5D0;
 }
+
+.error {
+  color: red;
+}
+
+.stack {
+  white-space: pre;
+  font-family: monospace;
+}
