@@ -69,8 +69,23 @@ export default input => {
       }
       maxStep = Math.max(maxStep, endingStep);
 
+      // We may have to create up to two <td> elements:
+      //   1.) Definitely we'll create a <td> representing the session history entry that spans
+      //       `endingStep - startingStep + 1` "steps".
+      //   2.) If the <td> from represents an <iframe> that was dynamically created sometime later
+      //       than step 0, then we create a "filler" <td> to fill the gap between step 0 and
+      //       `startingStep`.
+      if (startingStep > 0 && Array.from(tr.children).length == 1) {
+        const filler_td = tr.appendChild(document.createElement("td"));
+        filler_td.colSpan = startingStep;
+        filler_td.className = `doc-${docsToUse[docIndex]}`;
+        filler_td.textContent = url;
+        filler_td.docIndex = docIndex;
+        filler_td.classList.add("filler");
+      }
+
       const td = tr.appendChild(document.createElement("td"));
-      td.colSpan = endingStep - startingStep  + 1;
+      td.colSpan = endingStep - startingStep + 1;
       td.className = `doc-${docsToUse[docIndex]}`;
       td.docIndex = docIndex;
       td.textContent = url;
