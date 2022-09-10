@@ -72,8 +72,8 @@ export default input => {
       // We may have to create up to two <td> elements:
       //   1.) Definitely we'll create a <td> representing the session history entry that spans
       //       `endingStep - startingStep + 1` "steps".
-      //   2.) If the <td> from represents an <iframe> that was dynamically created sometime later
-      //       than step 0, then we create a "filler" <td> to fill the gap between step 0 and
+      //   2.) If the <td> from above represents an <iframe> that was dynamically created sometime
+      //       after step 0, then we create a "filler" <td> to fill the gap between step 0 and
       //       `startingStep`.
       if (startingStep > 0 && Array.from(tr.children).length == 1) {
         const filler_td = tr.appendChild(document.createElement("td"));
