@@ -26,6 +26,11 @@
   border-left: dotted 2px;
 }
 
+.jake-diagram td.filler {
+  color: gray;
+  font-style: italic;
+}
+
 .jake-diagram .current {
   font-style: italic;
   font-weight: bold;
